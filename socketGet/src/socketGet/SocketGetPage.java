@@ -27,12 +27,11 @@ import java.util.regex.Pattern;
 	 * 基于HtmlClient抓取网页内容 
 	 * 
 	 * @author www.yshjava.cn 
-	 */  
-	public class SocketGetPage {  
-	  
-	    public static void main(String[] args) throws Exception {  
+	 */
+	class GetPage{
+		public void getPage(String pageurl) throws Exception {  
 	        //目标页面     
-	        String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";  
+	        String url=pageurl;
 	        //创建一个默认的HttpClient  
 	        HttpClient httpclient = HttpClientBuilder.create().build();  
 	        try {  
@@ -69,6 +68,19 @@ import java.util.regex.Pattern;
 	            //关闭连接管理器  
 	           // httpclient.getConnectionManager().shutdown();  
 	        }  
+	  
+		}
+	}
+	public class SocketGetPage {  
+	  
+	    public static void main(String[] args)  {  
+	    	GetPage a = new GetPage();
+	    	String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";  
+	    	try{a.getPage(url);
+	    	}catch(Exception e)
+	    	{
+	    		System.out.println("Exception");  
+	    	}
 	  
 	    }  
 	}  
