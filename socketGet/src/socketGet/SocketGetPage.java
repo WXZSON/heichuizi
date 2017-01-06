@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 	public class SocketGetPage {  
 	  
 	    public static void main(String[] args) throws Exception {  
-	        //目标页面  
+	        //目标页面     
 	        String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";  
 	        //创建一个默认的HttpClient  
 	        HttpClient httpclient = HttpClientBuilder.create().build();  
