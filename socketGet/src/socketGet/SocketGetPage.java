@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 	 * 基于HtmlClient抓取网页内容 
 	 * 
 	 * @author www.yshjava.cn 
-	 */
+	 */   
 	class GetPage{
 		public void getPage(String pageurl) throws Exception {  
 	        //目标页面     
