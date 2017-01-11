@@ -21,8 +21,15 @@ import java.net.URL;
 import java.util.ArrayList;  
 import java.util.List;  
 import java.util.regex.Matcher;  
-import java.util.regex.Pattern;  
-	  
+import java.util.regex.Pattern;
+
+//import javax.swing.text.Document;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements; 
+
 	/** 
 	 * 基于HtmlClient抓取网页内容 
 	 * 
@@ -47,7 +54,20 @@ import java.util.regex.Pattern;
 	            System.out.println("----------------------------------------");  
 	            System.out.println(responseBody);  
 	            
+	            Document doc = Jsoup.parse(responseBody);
+	            Elements links = doc.select("a");//.first();
+	            //String relHref = link.attr("href"); // == "/"
+	            System.out.println("-********************-");
+	            for (Element link : links) { 
+	            	  String linkHref = link.attr("href"); 
+	            	  String linkText = link.text(); 
+	            	  System.out.println("-**TTTTTTTTT*****-");
+	            	  System.out.println(linkHref); 
+	            	  System.out.println("-**PPPPPPPPP*****-");
+	            	  System.out.println(linkText); 
+	            }
 	            
+	             
 	            String fileName="chuihei1.html";
 	            try
 	            {
