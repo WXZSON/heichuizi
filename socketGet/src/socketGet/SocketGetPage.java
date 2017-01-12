@@ -30,6 +30,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements; 
 
+import org.jsoup.helper.Validate;
+
 	/** 
 	 * 基于HtmlClient抓取网页内容 
 	 * 
@@ -52,17 +54,18 @@ import org.jsoup.select.Elements;
 	            //执行请求并获取结果  
 	            String responseBody = (String) httpclient.execute(httpget, responseHandler);  
 	            System.out.println("----------------------------------------");  
-	            System.out.println(responseBody);  
+	            //System.out.println(responseBody);  
 	            
 	            Document doc = Jsoup.parse(responseBody);
-	            Elements links = doc.select("a");//.first();
+	            Elements links =doc.select("a[href]"); //doc.select("a");//.first();
 	            //String relHref = link.attr("href"); // == "/"
-	            System.out.println("-********************-");
+	            //System.out.println("-********************-");
 	            for (Element link : links) { 
 	            	  String linkHref = link.attr("href"); 
 	            	  String linkText = link.text(); 
 	            	  System.out.println("-**TTTTTTTTT*****-");
 	            	  System.out.println(linkHref); 
+	            	  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
 	            	  System.out.println("-**PPPPPPPPP*****-");
 	            	  System.out.println(linkText); 
 	            }
