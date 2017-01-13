@@ -41,6 +41,7 @@ import org.jsoup.helper.Validate;
 		public void getPage(String pageurl) throws Exception {  
 	        //目标页面     
 	        String url=pageurl;
+	        final String linkBeginne="javascript:;";
 	        //创建一个默认的HttpClient  
 	        HttpClient httpclient = HttpClientBuilder.create().build();  
 	        try {  
@@ -58,16 +59,27 @@ import org.jsoup.helper.Validate;
 	            
 	            Document doc = Jsoup.parse(responseBody);
 	            Elements links =doc.select("a[href]"); //doc.select("a");//.first();
+	            Elements fool =doc.getElementsByTag("body"); //doc.select("a");//.first();
 	            //String relHref = link.attr("href"); // == "/"
 	            //System.out.println("-********************-");
+	            Boolean flag_link=false;
+	            Boolean flag_link2=false;
 	            for (Element link : links) { 
-	            	  String linkHref = link.attr("href"); 
-	            	  String linkText = link.text(); 
-	            	  System.out.println("-**TTTTTTTTT*****-");
-	            	  System.out.println(linkHref); 
-	            	  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
-	            	  System.out.println("-**PPPPPPPPP*****-");
-	            	  System.out.println(linkText); 
+	            	  String linkHref = link.attr("href");
+	            	  String linkText = link.text();
+	            	  if(linkText.equals("群组"))
+	            		  flag_link=true;
+	            	  
+	            	  if(flag_link2){
+	            		   
+	            		  System.out.println("-**TTTTTTTTT*****-");
+	            		  System.out.println(linkHref); 
+	            		  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
+	            		  System.out.println("-**PPPPPPPPP*****-");
+	            		  System.out.println(linkText); 
+	            	  }
+	            	  if(flag_link && linkHref.equals(linkBeginne))
+	            		  flag_link2=true;
 	            }
 	            
 	             
@@ -76,7 +88,7 @@ import org.jsoup.helper.Validate;
 	            {
 	            	//使用这个构造函数时，如果存在kuka.txt文件，
 	            	//则直接往kuka.txt中追加字符串
-	            	FileWriter writer=new FileWriter(fileName,true);
+	            	FileWriter writer=new FileWriter(fileName);
 	            	SimpleDateFormat format=new SimpleDateFormat();
 	            	String time=format.format(new Date());
 	            	writer.write("\n\t"+responseBody);
