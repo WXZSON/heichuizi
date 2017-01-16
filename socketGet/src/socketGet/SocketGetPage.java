@@ -38,10 +38,10 @@ import org.jsoup.helper.Validate;
 	 * @author www.yshjava.cn 
 	 */   
 	class GetPage{
-		public void getPage(String pageurl) throws Exception {  
+		public String getPage(String pageurl) throws Exception {  
 	        //目标页面     
 	        String url=pageurl;
-	        final String linkBeginne="javascript:;";
+	        String responseBody;
 	        //创建一个默认的HttpClient  
 	        HttpClient httpclient = HttpClientBuilder.create().build();  
 	        try {  
@@ -53,34 +53,10 @@ import org.jsoup.helper.Validate;
 	            ResponseHandler responseHandler = new BasicResponseHandler();  
 	            System.out.println("--");  
 	            //执行请求并获取结果  
-	            String responseBody = (String) httpclient.execute(httpget, responseHandler);  
+	            responseBody = (String) httpclient.execute(httpget, responseHandler);  
 	            System.out.println("----------------------------------------");  
 	            //System.out.println(responseBody);  
 	            
-	            Document doc = Jsoup.parse(responseBody);
-	            Elements links =doc.select("a[href]"); //doc.select("a");//.first();
-	            Elements fool =doc.getElementsByTag("body"); //doc.select("a");//.first();
-	            //String relHref = link.attr("href"); // == "/"
-	            //System.out.println("-********************-");
-	            Boolean flag_link=false;
-	            Boolean flag_link2=false;
-	            for (Element link : links) { 
-	            	  String linkHref = link.attr("href");
-	            	  String linkText = link.text();
-	            	  if(linkText.equals("群组"))
-	            		  flag_link=true;
-	            	  
-	            	  if(flag_link2){
-	            		   
-	            		  System.out.println("-**TTTTTTTTT*****-");
-	            		  System.out.println(linkHref); 
-	            		  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
-	            		  System.out.println("-**PPPPPPPPP*****-");
-	            		  System.out.println(linkText); 
-	            	  }
-	            	  if(flag_link && linkHref.equals(linkBeginne))
-	            		  flag_link2=true;
-	            }
 	            
 	             
 	            String fileName="chuihei1.html";
@@ -103,20 +79,66 @@ import org.jsoup.helper.Validate;
 	            //关闭连接管理器  
 	           // httpclient.getConnectionManager().shutdown();  
 	        }  
-	  
+	        return responseBody;
+		}
+	}
+	class ParsePage{
+		public void parsePage(String responseBody){
+			
+			String pattern = "/p/\\d+";
+			// 创建 Pattern 对象
+		    Pattern r = Pattern.compile(pattern);
+			final String linkBeginne="javascript:;";
+			
+			Document doc = Jsoup.parse(responseBody);
+            Elements links =doc.select("a[href]"); //doc.select("a");//.first();
+            Elements fool =doc.getElementsByTag("body"); //doc.select("a");//.first();
+            //String relHref = link.attr("href"); // == "/"
+            //System.out.println("-********************-");
+            Boolean flag_link=false;
+            Boolean flag_link2=false;
+            for (Element link : links) { 
+            	  String linkHref = link.attr("href");
+            	  String linkText = link.text();
+            	  if(linkText.equals("群组"))
+            		  flag_link=true;
+            	  
+            	  if(flag_link2){
+            		  Matcher m = r.matcher(link.toString());
+            	      if (m.find( )) {
+            	         System.out.println("Found value: " + m.group(0) );
+            	        // System.out.println("Found value: " + m.group(1) );
+            	        // System.out.println("Found value: " + m.group(2) );
+            	      } //else {
+            	        // System.out.println("NO MATCH");
+            	     // }
+            		 // System.out.println("-**TTTTTTTTT*****-");
+            		 // System.out.println(linkHref); 
+            		  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
+            		//  System.out.println("-**PPPPPPPPP*****-");
+            		//  System.out.println(linkText); 
+            	  }
+            	  if(flag_link && linkHref.equals(linkBeginne))
+            		  flag_link2=true;
+            }
+            
 		}
 	}
 	public class SocketGetPage {  
 	  
 	    public static void main(String[] args)  {  
 	    	GetPage a = new GetPage();
+	    	ParsePage b=new ParsePage();
+	    	String tmp="";
 	    	String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";  
-	    	try{a.getPage(url);
+	    	try{
+	    		tmp=a.getPage(url);
 	    	}catch(Exception e)
 	    	{
 	    		System.out.println("Exception");  
 	    	}
-	  
+	    	b.parsePage(tmp);
+	    	
 	    }  
 	}  
 
