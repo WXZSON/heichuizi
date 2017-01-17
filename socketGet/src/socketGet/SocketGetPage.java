@@ -42,6 +42,21 @@ import org.jsoup.helper.Validate;
 	        //目标页面     
 	        String url=pageurl;
 	        String responseBody;
+	        System.out.println("grap request " +  pageurl);  
+	        String pattern = "/p/\\d+";
+			// 创建 Pattern 对象
+		    Pattern r = Pattern.compile(pattern);
+		    Matcher m = r.matcher(pageurl);
+		    String fileName="C:\\Users\\ruizhewu\\heichuizi\\";
+		    if (m.find( )) {
+		    	String pattern1 = "\\d+";
+		    	Pattern r1 = Pattern.compile(pattern1);
+			    Matcher m1 = r1.matcher(pageurl);
+		    	fileName=fileName+m1.group();
+		    }else{
+		    	fileName=fileName+"MainPage";
+		    }
+		    	
 	        //创建一个默认的HttpClient  
 	        HttpClient httpclient = HttpClientBuilder.create().build();  
 	        try {  
@@ -51,22 +66,19 @@ import org.jsoup.helper.Validate;
 	            System.out.println("executing request " + httpget.getURI());  
 	            //创建响应处理器处理服务器响应内容  
 	            ResponseHandler responseHandler = new BasicResponseHandler();  
-	            System.out.println("--");  
 	            //执行请求并获取结果  
-	            responseBody = (String) httpclient.execute(httpget, responseHandler);  
-	            System.out.println("----------------------------------------");  
+	            responseBody = (String) httpclient.execute(httpget, responseHandler);   
 	            //System.out.println(responseBody);  
 	            
 	            
-	             
-	            String fileName="chuihei1.html";
 	            try
 	            {
 	            	//使用这个构造函数时，如果存在kuka.txt文件，
 	            	//则直接往kuka.txt中追加字符串
-	            	FileWriter writer=new FileWriter(fileName);
-	            	SimpleDateFormat format=new SimpleDateFormat();
+	            	SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd-HH-mm-ss");
 	            	String time=format.format(new Date());
+	            	fileName=fileName+"###"+time;
+	            	FileWriter writer=new FileWriter(fileName);
 	            	writer.write("\n\t"+responseBody);
 	            	writer.close();
 	            } catch (IOException e)
@@ -83,7 +95,7 @@ import org.jsoup.helper.Validate;
 		}
 	}
 	class ParsePage{
-		public void parsePage(String responseBody){
+		public void parsePage(String responseBody, List<String> postName){
 			
 			String pattern = "/p/\\d+";
 			// 创建 Pattern 对象
@@ -107,11 +119,12 @@ import org.jsoup.helper.Validate;
             		  Matcher m = r.matcher(link.toString());
             	      if (m.find( )) {
             	         System.out.println("Found value: " + m.group(0) );
+            	         postName.add(m.group(0));
             	        // System.out.println("Found value: " + m.group(1) );
             	        // System.out.println("Found value: " + m.group(2) );
-            	      } //else {
-            	        // System.out.println("NO MATCH");
-            	     // }
+            	      } else {
+            	         //System.out.println("NO MATCH");
+            	     }
             		 // System.out.println("-**TTTTTTTTT*****-");
             		 // System.out.println(linkHref); 
             		  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
@@ -129,16 +142,27 @@ import org.jsoup.helper.Validate;
 	    public static void main(String[] args)  {  
 	    	GetPage a = new GetPage();
 	    	ParsePage b=new ParsePage();
+	    	PostList c=new PostList();
 	    	String tmp="";
-	    	String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";  
+	    	String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";
+	    	String urltieba="http://tieba.baidu.com";
 	    	try{
 	    		tmp=a.getPage(url);
 	    	}catch(Exception e)
 	    	{
 	    		System.out.println("Exception");  
 	    	}
-	    	b.parsePage(tmp);
-	    	
+	    	b.parsePage(tmp, c.postName);
+	    	for(String postPage:c.postName)
+			{	
+	    		try{
+		    		a.getPage(urltieba+postPage);
+		    	}catch(Exception e)
+		    	{
+		    		e.printStackTrace();
+		    	}
+			}
+	    	System.out.println("END"); 
 	    }  
 	}  
 
