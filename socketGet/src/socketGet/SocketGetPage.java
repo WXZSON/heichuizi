@@ -77,8 +77,6 @@ import org.jsoup.helper.Validate;
 	            //执行请求并获取结果  
 	            responseBody = (String) httpclient.execute(httpget, responseHandler);   
 	            //System.out.println(responseBody);  
-	            
-	            
 	            try
 	            {
 	            	//使用这个构造函数时，如果存在kuka.txt文件，
@@ -128,16 +126,10 @@ import org.jsoup.helper.Validate;
             	      if (m.find( )) {
             	         System.out.println("Found value: " + m.group(0) );
             	         postName.add(m.group(0));
-            	        // System.out.println("Found value: " + m.group(1) );
-            	        // System.out.println("Found value: " + m.group(2) );
             	      } else {
             	         //System.out.println("NO MATCH");
             	     }
-            		 // System.out.println("-**TTTTTTTTT*****-");
-            		 // System.out.println(linkHref); 
-            		  //System.out.print(" * a: <%s>  (%s)", link.attr("abs:href"), link.text());
-            		//  System.out.println("-**PPPPPPPPP*****-");
-            		//  System.out.println(linkText); 
+
             	  }
             	  if(flag_link && linkHref.equals(linkBeginne))
             		  flag_link2=true;
@@ -151,6 +143,7 @@ import org.jsoup.helper.Validate;
 	    	GetPage a = new GetPage();
 	    	ParsePage b=new ParsePage();
 	    	PostList c=new PostList();
+	    	Extract ex=new Extract();
 	    	String tmp="";
 	    	String url = "http://tieba.baidu.com/f?kw=%E9%94%A4%E9%BB%91";
 	    	String urltieba="http://tieba.baidu.com";
@@ -165,6 +158,7 @@ import org.jsoup.helper.Validate;
 			{	
 	    		try{
 		    		a.getPage(urltieba+postPage);
+		    		ex.extractPage("4913881536###2017-01-18-01-50-27");
 		    	}catch(Exception e)
 		    	{
 		    		e.printStackTrace();
