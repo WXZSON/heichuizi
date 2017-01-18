@@ -49,10 +49,18 @@ import org.jsoup.helper.Validate;
 		    Matcher m = r.matcher(pageurl);
 		    String fileName="C:\\Users\\ruizhewu\\heichuizi\\";
 		    if (m.find( )) {
-		    	String pattern1 = "\\d+";
+		    	String pattern1 = "(\\d)+";
 		    	Pattern r1 = Pattern.compile(pattern1);
 			    Matcher m1 = r1.matcher(pageurl);
-		    	fileName=fileName+m1.group();
+			    System.out.println("pageurl = "+pageurl);
+			    if(m1.find()){
+			    	System.out.println("GROUP="+m1.group());
+			    	fileName=fileName+m1.group();
+			    	System.out.println("pageurlfileName= = "+fileName);
+			    }
+			    else{
+			    	System.out.println("NO post item found");
+			    }
 		    }else{
 		    	fileName=fileName+"MainPage";
 		    }
