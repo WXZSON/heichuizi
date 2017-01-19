@@ -20,7 +20,7 @@ public class Extract {
 		BufferedReader reader = null;
 		String content=null;
 		try {
-			System.out.println("ä»¥è¡Œä¸ºå�•ä½�è¯»å�–æ–‡ä»¶å†…å®¹ï¼Œä¸€æ¬¡è¯»ä¸€æ•´è¡Œï¼š");
+			System.out.println("*********************");
 			reader = new BufferedReader(new FileReader(file));
 			int line = 1;
 			// ä¸€æ¬¡è¯»å…¥ä¸€è¡Œï¼Œç›´åˆ°è¯»å…¥nullä¸ºæ–‡ä»¶ç»“æ�Ÿ
