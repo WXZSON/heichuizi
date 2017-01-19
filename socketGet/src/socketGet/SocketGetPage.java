@@ -158,7 +158,7 @@ import org.jsoup.helper.Validate;
 			{	
 	    		try{
 		    		a.getPage(urltieba+postPage);
-		    		ex.extractPage("4913881536###2017-01-18-01-50-27");
+		    		ex.extractPage("test.html");
 		    	}catch(Exception e)
 		    	{
 		    		e.printStackTrace();
